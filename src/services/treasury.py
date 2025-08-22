@@ -12,7 +12,9 @@ CACHE_LOCATION = "./cache/"
 logger = logging.getLogger("bank-app")
 
 
-def fetch_and_cache_csv(url: str, year: int, force_refresh=False):
+def fetch_and_cache_csv(
+    url: str, year: int, force_refresh=False
+) -> bytes | str:
     """Check the cache for the CSV file for the given year.
 
     If not found or force_refresh is True, fetch from the URL and cache it.
@@ -47,7 +49,7 @@ def fetch_and_cache_csv(url: str, year: int, force_refresh=False):
     return json_data
 
 
-def fetch_yield_data(year: int = datetime.now(UTC).year):
+def fetch_yield_data(year: int = datetime.now(UTC).year) -> bytes | str:
     base_url = "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/daily-treasury-rates.csv/"
     filt = f"{year}/all?type=daily_treasury_yield_curve&field_tdr_date_value={year}&page&_format=csv"  # NOQA: E501
     yields_endpoint = f"{base_url}/{filt}"

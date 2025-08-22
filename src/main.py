@@ -1,23 +1,25 @@
 import logging
+import os
 from contextlib import asynccontextmanager
+from datetime import UTC, datetime
 from typing import Annotated
 
-from fastapi import Depends, FastAPI, Query
+from fastapi import Depends, FastAPI, Query, Response, status
 from sqlmodel import Session
 
-from models.database import get_session
+from models.database import get_session, init_db
+from models.orders import Order, OrderCreate
 from services import fetch_yield_data
 
-logging.basicConfig(
-    level=logging.DEBUG,
-)
+log_level = os.getenv("LOG_LEVEL", "INFO").upper()
+logging.basicConfig(level=getattr(logging, log_level, logging.INFO))
 logger = logging.getLogger("bank-app")
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup logic
-    # db_init()
+    init_db()
     yield
     # Shutdown logic
 
@@ -37,9 +39,19 @@ def get_orders(session: SessionDep):
     return {"message": "Orders retrieved successfully"}
 
 
-@app.post("/api/v1/order")
-def create_order(session: SessionDep):
-    return {"message": "Order created successfully"}
+@app.post("/api/v1/order", status_code=status.HTTP_202_ACCEPTED)
+async def create_order(order: OrderCreate, session: SessionDep):
+    logger.info("Order for %d and amount %d received", order.term, order.amount)
+    new_order = Order(
+        term=order.term, amount=order.amount, submitted=datetime.now(UTC)
+    )
+    session.add(new_order)
+    session.commit()
+    session.refresh(new_order)
+    logger.debug(
+        "Successfully saved order for %d months of %d", order.term, order.amount
+    )
+    return Response(status_code=status.HTTP_202_ACCEPTED)
 
 
 @app.get("/api/v1/yields")
