@@ -4,10 +4,11 @@ from contextlib import asynccontextmanager
 from datetime import UTC, datetime
 from typing import Annotated
 
+import uvicorn
 from fastapi import Depends, FastAPI, Query, Response, status
-from sqlmodel import Session
+from sqlmodel import Session, select
 
-from models.database import get_session, init_db
+from models.database import add_and_commit, get_session, init_db
 from models.orders import Order, OrderCreate
 from services import fetch_yield_data
 
@@ -36,7 +37,7 @@ def health_check():
 
 @app.get("/api/v1/orders")
 def get_orders(session: SessionDep):
-    return {"message": "Orders retrieved successfully"}
+    return session.exec(select(Order)).all()
 
 
 @app.post("/api/v1/order", status_code=status.HTTP_202_ACCEPTED)
@@ -45,9 +46,7 @@ async def create_order(order: OrderCreate, session: SessionDep):
     new_order = Order(
         term=order.term, amount=order.amount, submitted=datetime.now(UTC)
     )
-    session.add(new_order)
-    session.commit()
-    session.refresh(new_order)
+    add_and_commit(session, new_order)
     logger.debug(
         "Successfully saved order for %d months of %d", order.term, order.amount
     )
@@ -58,3 +57,8 @@ async def create_order(order: OrderCreate, session: SessionDep):
 def get_yields(year: int = Query(None, description="Year for yield data")):
     logger.info("Fetching yield data for year: %s", year)
     return fetch_yield_data(year=year)
+
+
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", "8080"))
+    uvicorn.run("main:app", host="0.0.0.0", port=port)

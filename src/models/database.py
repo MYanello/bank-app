@@ -14,3 +14,10 @@ def get_session() -> Generator[Session]:
 
 def init_db():
     SQLModel.metadata.create_all(engine)
+
+
+def add_and_commit(session: Session, instance: SQLModel) -> SQLModel:
+    session.add(instance)
+    session.commit()
+    session.refresh(instance)
+    return instance
