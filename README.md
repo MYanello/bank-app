@@ -16,3 +16,6 @@ You are working with a bank that needs to manage its liquidity. Build a simple f
 - We will not cache or async the database due to expected active userbase being < 5
 - Yield data will be stored as json for passing to the frontend when charting
 ### Frontend
+- Chose to use basic html and js for this to not overcomplicate a simple page
+- Adapted some old css from a different project I've worked on
+- Just used an off the shelf npm charting plugin

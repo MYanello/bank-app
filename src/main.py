@@ -6,6 +6,8 @@ from typing import Annotated
 
 import uvicorn
 from fastapi import Depends, FastAPI, Query, Response, status
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from sqlmodel import Session, select
 
 from models.database import add_and_commit, get_session, init_db
@@ -38,7 +40,8 @@ def health_check():
 @app.get("/api/v1/orders")
 def get_orders(session: SessionDep):
     logger.info("Fetching all orders from the database")
-    return session.exec(select(Order)).all()
+    orders = session.exec(select(Order)).all()
+    return {"orders": orders, "count": len(orders)}
 
 
 @app.post("/api/v1/order", status_code=status.HTTP_202_ACCEPTED)
@@ -55,11 +58,22 @@ async def create_order(order: OrderCreate, session: SessionDep):
 
 
 @app.get("/api/v1/yields")
-def get_yields(year: int = Query(None, description="Year for yield data")):
-    logger.info("Fetching yield data for year: %s", year)
-    return fetch_yield_data(year=year)
+def get_yields(
+    year: int = Query(None, description="Year for yield data"),
+    term: str = Query(None, description="Term length for yield data"),
+):
+    logger.info("Fetching yield data for %d, term: %s", year, term)
+    return {"year": year, "term": term, "yields": fetch_yield_data(year, term)}
+
+
+app.mount("/static", StaticFiles(directory="static/"), name="static")
+
+
+@app.get("/")
+def read_index():
+    return FileResponse("static/index.html")
 
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "8080"))
-    uvicorn.run("main:app", host="0.0.0.0", port=port)
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)

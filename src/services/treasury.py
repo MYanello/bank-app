@@ -12,9 +12,7 @@ CACHE_LOCATION = "./cache/"
 logger = logging.getLogger("bank-app")
 
 
-def fetch_and_cache_csv(
-    url: str, year: int, force_refresh=False
-) -> bytes | str:
+def fetch_and_cache_csv(url: str, year: int, force_refresh=False) -> list[dict]:
     """Check the cache for the CSV file for the given year.
 
     If not found or force_refresh is True, fetch from the URL and cache it.
@@ -35,6 +33,7 @@ def fetch_and_cache_csv(
                 "cache hit for %s yields; cachepath: %s", year, cache_path
             )
             json_data = f.read()
+            rows = json.loads(json_data)
     else:  # TODO: try/except the request
         logger.debug(
             "cache miss for %s yields; cachepath: %s", year, cache_path
@@ -46,12 +45,22 @@ def fetch_and_cache_csv(
         json_data = json.dumps(rows)
         with open(cache_path, "w") as f:
             f.write(json_data)
-    return json_data
+    return rows
 
 
-def fetch_yield_data(year: int = datetime.now(UTC).year) -> bytes | str:
+def filter_for_term(data: list[dict], term: str) -> list[dict]:
+    "Get only the data for the specified term."
+    # TODO: this should be cached as well
+    return [
+        {"Date": row["Date"], term: row[term]} for row in data if row.get(term)
+    ]
+
+
+def fetch_yield_data(
+    year: int = datetime.now(UTC).year, term: str = "1 Mo"
+) -> list[dict]:
     base_url = "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/daily-treasury-rates.csv/"
     filt = f"{year}/all?type=daily_treasury_yield_curve&field_tdr_date_value={year}&page&_format=csv"  # NOQA: E501
     yields_endpoint = f"{base_url}/{filt}"
-
-    return fetch_and_cache_csv(yields_endpoint, year)
+    raw_data = fetch_and_cache_csv(yields_endpoint, year)
+    return filter_for_term(raw_data, term)
