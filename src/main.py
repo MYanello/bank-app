@@ -37,6 +37,7 @@ def health_check():
 
 @app.get("/api/v1/orders")
 def get_orders(session: SessionDep):
+    logger.info("Fetching all orders from the database")
     return session.exec(select(Order)).all()
 
 
