@@ -65,7 +65,7 @@ components:
         term:
           type: integer
           example: 10
-          description: Term in years
+          description: Term in months
         amount:
           type: number
           format: float

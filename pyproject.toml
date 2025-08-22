@@ -5,6 +5,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "fastapi>=0.116.1",
+    "requests>=2.32.5",
     "sqlmodel>=0.0.24",
     "uvicorn>=0.35.0",
 ]
@@ -58,6 +59,7 @@ select = [
 ignore = [
     "D100",   # Missing docstring in public module,
     "D103",   # Missing docstring in public function
+    "D104",   # Missing docstring in public package
     "D203",   # 1 blank line before class docstring
     "D211",   # No blank lines allowed before class docstring
     "D213",   # Multi-line docstring summary should start at the second line
