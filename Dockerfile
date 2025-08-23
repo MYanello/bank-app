@@ -1,8 +1,8 @@
 ARG DEBUG_IMAGE=ghcr.io/astral-sh/uv
-ARG TAG=python3.13-trixie-slim
-ARG DIGEST=sha256:07c6e125ca9f440b4d420b9e877aa11c0f44a406969c09d90c6f6ebb518d474c
+ARG DEBUG_TAG=python3.13-trixie-slim
+ARG DEBUG_DIGEST=sha256:07c6e125ca9f440b4d420b9e877aa11c0f44a406969c09d90c6f6ebb518d474c
 
-FROM $DEBUG_IMAGE:$DEBUG_TAG@$DEBUG_DIGST AS debug
+FROM $DEBUG_IMAGE:$DEBUG_TAG@$DEBUG_DIGEST AS debug
 
 WORKDIR /app
 COPY ./src/pyproject.toml ./src/uv.lock ./src/.python-version ./

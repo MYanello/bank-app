@@ -21,10 +21,11 @@ You are working with a bank that needs to manage its liquidity. Build a simple f
 - Just used an off the shelf npm charting plugin
 ### Deployment
 - Will be put on my existing Kubernetes cluster for ease/speed of deployment. 
-- Should be behind a Cilium gateway with a public FQDN for demo purposes.
+- Should be behind a Cilium gateway with a public FQDN and cert for demo purposes.
 
 ## Running
-If you have a specific port you want to run on you can choose that with `export PORT=9000`
+If you have a specific port you want to run on you can choose that with `export PORT=9000`, the default port is 8080.  
+After starting it can be accessed in the browser at http://localhost:8080 and api docs can be seen at http://localhost:8080/docs
 
 ### UV
 If you have `uv` installed you can simply clone this repo and run using that 
@@ -38,8 +39,15 @@ Otherwise, the venv can be installed with Poetry and run with that
 ```bash
 git clone https://codeberg.org/marcusjy/bank-app.git
 cd bank-app/src
-python -m venv .venv
-source .venv/bin/activate
+python -m venv venv
+source venv/bin/activate
 poetry install
 python main.py
 ```
+### Docker
+A container has been built for ease of running as well.
+```bash
+docker run -e PORT=8080 -p 8080:8080 codeberg.org/marcusjy/bank-app:latest 
+```
+### Hosted Instance
+If you don't want to run the app yourself, you can access my hosted instance at https://modernfi.yanello.net
