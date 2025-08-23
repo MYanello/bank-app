@@ -25,7 +25,7 @@ def fetch_and_cache_csv(url: str, year: int, force_refresh=False) -> list[dict]:
         # TODO: make this a scheduled job instead to run daily
         logger.debug("Forcing refresh for current year: %s", year)
         force_refresh = True
-
+    # TODO pre-fetch the last few years of csv's
     cache_path = CACHE_LOCATION + str(year) + ".json"
     if not force_refresh and os.path.exists(cache_path):
         with open(cache_path, "rb") as f:
