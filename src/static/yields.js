@@ -117,7 +117,7 @@ function displayYields(yields, term) {
       '<canvas id="yields-chart" width="800" height="400"></canvas>';
     canvas = document.getElementById("yields-chart");
   }
-  const ctx = document.getElementById("yields-chart").getContext("2d");
+  const ctx = canvas.getContext("2d");
   const dates = yields.map((row) => row["Date"]);
   const rates = yields.map((row) => parseFloat(row[term]));
 
@@ -131,7 +131,7 @@ function displayYields(yields, term) {
       labels: dates.reverse(), // oldest to newest
       datasets: [
         {
-          label: "Treasury Yield (%)",
+          label: `${term} Treasury Yield (%)`,
           data: rates.reverse(),
           borderColor: "#3498db",
           backgroundColor: "rgba(52, 152, 219, 0.2)",

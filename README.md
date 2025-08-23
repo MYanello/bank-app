@@ -11,8 +11,11 @@ You are working with a bank that needs to manage its liquidity. Build a simple f
 ### Backend
 - Considered Go vs Python for the backend. Typically I would use Go for a small service like this for its speed and simplicity, but due to the rest of the team being familiar with Python and FastAPI, that overruled any gains Go would have given me.
 - SQLModel was chosen as the ORM since it pairs well with Fastapi and basic usage like this. In production sqlalchemy may be a better choice for its configurability.
+- Uvicorn will be used as the web server
 - For datasource there were a few non-public apis with free registration, but I chose against that so that users wouldn't need to get an api key if they wanted to run this themselves. Instead I found the daily par yield curve rates from the US Treasury API [here](https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve&field_tdr_date_value_month=202508)
 - We will cache any previous years under the assumption that the values won't change for the yields
+  - Cache will update every call for 2025, this should have some better logic on it like only updating daily, but for now it's fine
+    - This has the added benefit of giving us an endpoint we know will always hit the API we can use for testing
 - We will not cache or async the database due to expected active userbase being < 5
 - Yield data will be stored as json for passing to the frontend when charting
 ### Frontend
@@ -21,7 +24,13 @@ You are working with a bank that needs to manage its liquidity. Build a simple f
 - Just used an off the shelf npm charting plugin
 ### Deployment
 - Will be put on my existing Kubernetes cluster for ease/speed of deployment. 
-- Should be behind a Cilium gateway with a public FQDN and cert for demo purposes.
+- Should be behind a Cilium gateway with a public FQDN and cert for demo purposes
+- Will be stateless in the cluster with the caching and database kept in memory
+  - In production this should be connected to an actual external DB for saving orders
+### TODO
+- Add user management
+- Add a refresh button to the orders page
+- Improve yields caching logic
 
 ## Running
 If you have a specific port you want to run on you can choose that with `export PORT=9000`, the default port is 8080.  

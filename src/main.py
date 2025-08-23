@@ -11,7 +11,7 @@ from fastapi.staticfiles import StaticFiles
 from sqlmodel import Session, select
 
 from models.database import add_and_commit, get_session, init_db
-from models.orders import Order, OrderCreate
+from models.orders import Order, OrderCreate, OrderResponse
 from services import fetch_yield_data
 
 log_level = os.getenv("LOG_LEVEL", "INFO").upper()
@@ -41,7 +41,18 @@ def health_check():
 def get_orders(session: SessionDep):
     logger.info("Fetching all orders from the database")
     orders = session.exec(select(Order)).all()
-    return {"orders": orders, "count": len(orders)}
+    return {
+        "orders": [
+            {
+                "submitted": OrderResponse(
+                    **order.model_dump(exclude={"id"})
+                ).submitted_iso,
+                "term": order.term,
+                "amount": order.amount,
+            }
+            for order in orders
+        ]
+    }
 
 
 @app.post("/api/v1/order", status_code=status.HTTP_202_ACCEPTED)
@@ -72,6 +83,11 @@ app.mount("/static", StaticFiles(directory="static/"), name="static")
 @app.get("/")
 def read_index():
     return FileResponse("static/index.html")
+
+
+@app.get("/orders")
+def read_orders():
+    return FileResponse("static/orders.html")
 
 
 if __name__ == "__main__":
