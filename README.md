@@ -31,6 +31,7 @@ You are working with a bank that needs to manage its liquidity. Build a simple f
 - Add user management
 - Add a refresh button to the orders page
 - Improve yields caching logic
+- Store and display the rate for new/old orders
 
 ## Running
 If you have a specific port you want to run on you can choose that with `export PORT=9000`, the default port is 8080.  

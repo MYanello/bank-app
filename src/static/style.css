@@ -197,7 +197,7 @@ button:hover {
     border: 1px solid #ddd;
     padding: 0.75em 1em;
     text-align: left;
-    width: 33%;
+    width: 150px;
 }
 .orders-table th {
     background: #3498db;
@@ -205,4 +205,18 @@ button:hover {
 }
 .orders-table tr:nth-child(even) {
     background: #f5f5f5;
+}
+
+#flash-message {
+    position: relative;
+    margin: 1em 0;
+    padding: 1em;
+    width: 10%;
+    background: #dff0d8;
+    color: #3c763d;
+    border: 1px solid #b2dba1;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: bold;
+    z-index: 10;
 }

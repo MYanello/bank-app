@@ -57,7 +57,9 @@ def get_orders(session: SessionDep):
 
 @app.post("/api/v1/order", status_code=status.HTTP_202_ACCEPTED)
 async def create_order(order: OrderCreate, session: SessionDep):
-    logger.info("Order for %d and amount %d received", order.term, order.amount)
+    logger.info(
+        "Order for term: %d and amount: %d received", order.term, order.amount
+    )
     new_order = Order(
         term=order.term, amount=order.amount, submitted=datetime.now(UTC)
     )

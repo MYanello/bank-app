@@ -1,6 +1,37 @@
 document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("new-order-form").onsubmit = submitOrder;
+
   fetchOrders();
 });
+
+function submitOrder(event) {
+  event.preventDefault(); // prevent form from submitting from refreshing the page
+  const form = event.target;
+  const term = form.term.value;
+  const amount = form.amount.value;
+
+  fetch("/api/v1/order", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      term: Number(term),
+      amount: Number(amount),
+    }),
+  })
+    .then((response) => {
+      if (response.ok) {
+        flashMessage("Order received");
+        fetchOrders(); // refresh the order list
+      } else {
+        response.text().then((text) => {
+          alert("Failed to create order: " + text);
+        });
+      }
+    })
+    .catch((error) => {
+      alert("Failed to create order: " + error);
+    });
+}
 
 function fetchOrders() {
   const ordersContainer = document.getElementById("orders-container");
@@ -59,10 +90,20 @@ function displayOrders(orders) {
     })
     .join("");
   container.innerHTML = `
-    <h2>Orders</h2>
+    <h2>Previous Orders</h2>
     <table class="orders-table">
       <thead>${tableHeaders}</thead>
       <tbody>${tableRows}</tbody>
     </table>
   `;
+}
+
+function flashMessage(text, duration = 1000) {
+  const msgDiv = document.getElementById("flash-message");
+  msgDiv.textContent = text;
+  msgDiv.style.display = "block";
+  setTimeout(() => {
+    msgDiv.style.display = "none";
+    msgDiv.textContent = "";
+  }, duration);
 }
