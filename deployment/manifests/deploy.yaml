@@ -45,11 +45,11 @@ spec:
           #   failureThreshold: 3
           resources:
             requests:
-              cpu: 10m
-              memory: 25Mi
+              cpu: 100m
+              memory: 250Mi
             limits:
-              cpu: 20m
-              memory: 50Mi
+              cpu: 200m
+              memory: 500Mi
       restartPolicy: Always
       tolerations:
         - key: "node-role.kubernetes.io/control-plane"
