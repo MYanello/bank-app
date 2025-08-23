@@ -59,7 +59,7 @@ python main.py
 ### Docker
 A container has been built for ease of running as well.
 ```bash
-docker run -e PORT=8080 -p 8080:8080 codeberg.org/marcusjy/bank-app:latest 
+docker run -e PORT=8080 -p 8080:8080 ghcr.io/myanello/bank-app:latest 
 ```
 ### Hosted Instance
 If you don't want to run the app yourself, you can access my hosted instance at https://modernfi.yanello.net
