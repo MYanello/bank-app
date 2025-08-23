@@ -1,5 +1,5 @@
 RUNTIME ?= nerdctl
-REGISTRY ?= codeberg.org/marcusjy/bank-app
+REGISTRY ?= ghcr.io/myanello/bank-app
 BUILD_TARGET ?= debug
 TAG := latest
 IMAGE := $(REGISTRY):$(TAG)
