@@ -220,3 +220,17 @@ button:hover {
     font-weight: bold;
     z-index: 10;
 }
+
+#yields-container {
+    max-height: 60vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#yields-chart {
+    height: 100% !important;
+    width: 100% !important;
+    max-height: 100%;
+    max-width: 100%;
+}
