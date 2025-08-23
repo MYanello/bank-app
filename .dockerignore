@@ -1,3 +1,4 @@
 *.dec.*
 src/*venv
 src/cache
+src/database.db

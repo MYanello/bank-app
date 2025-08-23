@@ -1,4 +1,5 @@
 src/cache
+src/database.db
 
 ### Python template:
 # Byte-compiled / optimized / DLL files
