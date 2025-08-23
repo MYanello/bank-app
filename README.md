@@ -27,6 +27,7 @@ You are working with a bank that needs to manage its liquidity. Build a simple f
 - Should be behind a Cilium gateway with a public FQDN and cert for demo purposes
 - Will be stateless in the cluster with the caching and database kept in memory
   - In production this should be connected to an actual external DB for saving orders
+- Container built using a Github action
 ### TODO
 - Add user management
 - Add a refresh button to the orders page
@@ -40,14 +41,14 @@ After starting it can be accessed in the browser at http://localhost:8080 and ap
 ### UV
 If you have `uv` installed you can simply clone this repo and run using that 
 ```bash
-git clone https://codeberg.org/marcusjy/bank-app.git
+git clone https://github.com/MYanello/bank-app.git
 cd bank-app/src
 uv run main.py
 ```
 ### Poetry
 Otherwise, the venv can be installed with Poetry and run with that 
 ```bash
-git clone https://codeberg.org/marcusjy/bank-app.git
+git clone https://github.com/MYanello/bank-app.git
 cd bank-app/src
 python -m venv venv
 source venv/bin/activate
