@@ -5,7 +5,7 @@ ARG DIGEST=sha256:07c6e125ca9f440b4d420b9e877aa11c0f44a406969c09d90c6f6ebb518d47
 FROM $DEBUG_IMAGE:$DEBUG_TAG@$DEBUG_DIGST AS debug
 
 WORKDIR /app
-COPY ./pyproject.toml ./uv.lock ./.python-version ./
+COPY ./src/pyproject.toml ./src/uv.lock ./src/.python-version ./
 RUN uv sync --locked
 
 COPY ./src ./

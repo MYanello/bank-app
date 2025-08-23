@@ -1,7 +1,6 @@
 [project]
 name = "bank-app"
 version = "0.1.0"
-readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "fastapi>=0.116.1",
@@ -9,6 +8,11 @@ dependencies = [
     "sqlmodel>=0.0.24",
     "uvicorn>=0.35.0",
 ]
+
+[tool.poetry]
+name = "bank-app"
+version = "0.1.0"
+package-mode = false
 
 [tool.ruff]
 line-length = 80

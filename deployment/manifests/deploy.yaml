@@ -43,7 +43,7 @@ spec:
             periodSeconds: 5
             timeoutSeconds: 5
             failureThreshold: 3
-          resources:
+          resources: # TODO adjust these down when we have a better feel for the app's needs
             requests:
               cpu: 200m
               memory: 200Mi
