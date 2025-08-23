@@ -40,6 +40,6 @@ spec:
             command:
               - /bin/sh
               - -c
-              - kubectl rollout restart deploy/bank-app
+              - kubectl delete pod -l app=bank-app -n bank-app
           restartPolicy: OnFailure
           serviceAccountName: pod-killer-sa
