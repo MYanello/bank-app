@@ -27,6 +27,7 @@ You are working with a bank that needs to manage its liquidity. Build a simple f
 - Should be behind a Cilium gateway with a public FQDN and cert for demo purposes
 - Will be stateless in the cluster with the caching and database kept in memory
   - In production this should be connected to an actual external DB for saving orders
+  - The memory and pod will be wiped every 8 hours since this is a demo
 - Container built using a Github action
 ### TODO
 - Add user management
