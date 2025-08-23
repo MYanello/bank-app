@@ -31,8 +31,8 @@ You are working with a bank that needs to manage its liquidity. Build a simple f
 - Container built using a Github action
 ### TODO
 - Add user management
-- Add a refresh button to the orders page
 - Improve yields caching logic
+  - Precache x years on startup
 - Store and display the rate for new/old orders
 - Allow more finegrained yield period control
 - Order submittal message shouldn't move everything down

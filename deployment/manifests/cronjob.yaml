@@ -10,7 +10,7 @@ metadata:
 rules:
   - apiGroups: [""]
     resources: ["pods"]
-    verbs: ["delete"]
+    verbs: ["list", "delete"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -28,17 +28,17 @@ kind: CronJob
 metadata:
   name: kill-pod
 spec:
-  schedule: "0 */8 * * *"  # every 8 hours
+  schedule: "0 */8 * * *" # every 8 hours
   jobTemplate:
     spec:
       template:
         spec:
           containers:
-          - name: killer
-            image: bitnami/kubectl:latest
-            command:
-              - /bin/sh
-              - -c
-              - kubectl delete pod -l app=bank-app -n bank-app
+            - name: killer
+              image: bitnami/kubectl:latest
+              command:
+                - /bin/sh
+                - -c
+                - kubectl delete pod -l app=bank-app -n bank-app
           restartPolicy: OnFailure
           serviceAccountName: pod-killer-sa
