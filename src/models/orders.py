@@ -24,7 +24,8 @@ class Order(Base):
     def submitted_iso(self) -> str:
         """Return the datetime in ISO8601 format with 'Z' suffix for UTC.
 
-        Needed because sqlite does not store timezone info.
+        Needed because sqlite does not store timezone info
+        so frontend is displaying only in UTC.
         """
         dt = self.submitted
         if dt.tzinfo is None:

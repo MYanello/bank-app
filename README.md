@@ -39,6 +39,8 @@ You are working with a bank that needs to manage its liquidity. Build a simple f
 - Improve styling of orders page
   - Order submittal message shouldn't move everything down
   - Input fields should match order form and be side by side
+- Dockerfile should be multi stage instead of using a full size image for runtime
+
 ## Running
 If you have a specific port you want to run on you can choose that with `export PORT=9000`, the default port is 8080.  
 After starting it can be accessed in the browser at http://localhost:8080 and api docs can be seen at http://localhost:8080/docs
@@ -78,4 +80,4 @@ source .venv/bin/activate
 pytest
 ```
 or with `make test`.  
-**Note:** the testing suite is currently incomplete with setting up a test db
+**Note:** the testing suite is currently incomplete and provide more as a building block for use after setting up an inmemory test db
