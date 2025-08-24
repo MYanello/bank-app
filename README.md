@@ -49,20 +49,23 @@ git clone https://github.com/MYanello/bank-app.git
 cd bank-app/src
 uv run main.py
 ```
+or using `make run-uv`
 ### Poetry
 Otherwise, the venv can be installed with Poetry and run with that 
 ```bash
 git clone https://github.com/MYanello/bank-app.git
-cd bank-app/src
+cd bank-app/
 python -m venv venv
 source venv/bin/activate
 poetry install
 python main.py
 ```
+or using `make run-poetry`
 ### Docker
 A container has been built for ease of running as well.
 ```bash
 docker run -e PORT=8080 -p 8080:8080 ghcr.io/myanello/bank-app:latest 
 ```
+or using `make run-docker`
 ### Hosted Instance
 If you don't want to run the app yourself, you can access my hosted instance at https://modernfi.yanello.net
