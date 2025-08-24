@@ -1,4 +1,4 @@
-RUNTIME ?= nerdctl
+RUNTIME ?= docker
 REGISTRY ?= ghcr.io/myanello/bank-app
 BUILD_TARGET ?= debug
 TAG := latest
