@@ -31,3 +31,9 @@ def test_create_and_get_order(session, client):
     assert orders[0]["term"] == 24
     assert orders[0]["amount"] == 5000.0
     assert "submitted" in orders[0]
+
+
+def test_get_yields(session, client):
+    # test that the api returns a response in the format we expect
+    # assume that the api returns the same values for previous years every time
+    pass
