@@ -33,7 +33,7 @@ app = FastAPI(lifespan=lifespan)
 
 @app.get("/healthz")
 def health_check():
-    logger.info("health check endpoint was called")
+    logger.debug("health check endpoint was called")
     return "OK"
 
 

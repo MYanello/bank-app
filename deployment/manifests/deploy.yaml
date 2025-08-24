@@ -40,7 +40,7 @@ spec:
               path: /healthz
               port: 8080
             initialDelaySeconds: 10
-            periodSeconds: 5
+            periodSeconds: 60
             timeoutSeconds: 5
             failureThreshold: 3
           resources: # TODO adjust these down when we have a better feel for the app's needs
