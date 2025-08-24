@@ -10,7 +10,6 @@ You are working with a bank that needs to manage its liquidity. Build a simple f
 ## Architecture
 ### Backend
 - Considered Go vs Python for the backend. Typically I would use Go for a small service like this for its speed and simplicity, but due to the rest of the team being familiar with Python and FastAPI, that overruled any gains Go would have given me.
-- SQLModel was chosen as the ORM since it pairs well with Fastapi and basic usage like this. In production sqlalchemy may be a better choice for its configurability.
 - Uvicorn will be used as the web server
 - For datasource there were a few non-public apis with free registration, but I chose against that so that users wouldn't need to get an api key if they wanted to run this themselves. Instead I found the daily par yield curve rates from the US Treasury API [here](https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve&field_tdr_date_value_month=202508)
 - We will cache any previous years under the assumption that the values won't change for the yields
@@ -30,14 +29,13 @@ You are working with a bank that needs to manage its liquidity. Build a simple f
   - The memory and pod will be wiped every 8 hours since this is a demo
 - Container built using a Github action
 ### TODO
+- Fix tests to use the in memory database correctly and not the production db
 - Add user management
 - Improve yields caching logic
   - Precache x years on startup
 - Store and display the rate for new/old orders
 - Allow more finegrained yield period control
 - Order submittal message shouldn't move everything down
-- E2E tests for the api
-  - Need an order delete endpoint or function for cleaning up the test
 ## Running
 If you have a specific port you want to run on you can choose that with `export PORT=9000`, the default port is 8080.  
 After starting it can be accessed in the browser at http://localhost:8080 and api docs can be seen at http://localhost:8080/docs
@@ -55,8 +53,8 @@ Otherwise, the venv can be installed with Poetry and run with that
 ```bash
 git clone https://github.com/MYanello/bank-app.git
 cd bank-app/
-python -m venv venv
-source venv/bin/activate
+python -m venv .venv
+source .venv/bin/activate
 poetry install
 python main.py
 ```
@@ -69,3 +67,11 @@ docker run -e PORT=8080 -p 8080:8080 ghcr.io/myanello/bank-app:latest
 or using `make run-docker`
 ### Hosted Instance
 If you don't want to run the app yourself, you can access my hosted instance at https://modernfi.yanello.net
+
+### Testing
+Tests can be run in the root directory with
+```
+source .venv/bin/activate
+pytest
+```
+or with `make test`

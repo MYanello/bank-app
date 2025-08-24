@@ -1,6 +1,5 @@
 import logging
 import os
-from contextlib import asynccontextmanager
 from datetime import UTC, datetime
 from typing import Annotated
 
@@ -11,25 +10,24 @@ from fastapi.staticfiles import StaticFiles
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from models.database import add_and_commit, get_session, init_db
+from models.database import (
+    Base,
+    add_and_commit,
+    engine,
+    get_session,
+)
 from models.orders import Order, OrderCreate, OrderResponse, OrdersResponse
 from services import fetch_yield_data
 
 log_level = os.getenv("LOG_LEVEL", "INFO").upper()
 logging.basicConfig(level=getattr(logging, log_level, logging.INFO))
+logging.getLogger("sqlalchemy.engine").setLevel(logging.WARNING)
 logger = logging.getLogger("bank-app")
 
+Base.metadata.create_all(bind=engine)
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Startup logic
-    init_db()
-    yield
-    # Shutdown logic
-
-
-SessionDep = Annotated[Session, Depends(lambda: next(get_session()))]
-app = FastAPI(lifespan=lifespan)
+SessionDep = Annotated[Session, Depends(get_session)]
+app = FastAPI()
 
 
 @app.get("/healthz")

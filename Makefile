@@ -30,3 +30,7 @@ install-poetry:
 .PHONY: run-poetry
 run-poetry: install-poetry
 	source .venv/bin/activate && cd src && poetry run python main.py
+
+.PHONY: test
+test:
+	pytest
