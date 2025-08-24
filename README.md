@@ -40,6 +40,7 @@ You are working with a bank that needs to manage its liquidity. Build a simple f
   - Order submittal message shouldn't move everything down
   - Input fields should match order form and be side by side
 - Dockerfile should be multi stage instead of using a full size image for runtime
+- Provide proper response models for the Yields data
 
 ## Running
 If you have a specific port you want to run on you can choose that with `export PORT=9000`, the default port is 8080.  

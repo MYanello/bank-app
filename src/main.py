@@ -27,18 +27,34 @@ logger = logging.getLogger("bank-app")
 Base.metadata.create_all(bind=engine)
 
 SessionDep = Annotated[Session, Depends(get_session)]
-app = FastAPI()
+app = FastAPI(
+    title="Treasury Yields API",
+    description="""
+    An API for managing investment orders and yield data.
+    """,
+)
 
 
-@app.get("/healthz")
+@app.get(
+    "/healthz",
+    tags=["System"],
+    summary="Health Check",
+    response_description="Health status",
+)
 def health_check() -> str:
     logger.debug("health check endpoint was called")
     return "OK"
 
 
-@app.get("/api/v1/orders", response_model=OrderListResponse)
+@app.get(
+    "/api/v1/orders",
+    response_model=OrderListResponse,
+    response_description="List of all orders with submission details",
+    tags=["Orders"],
+    summary="Get All Orders",
+)
 def get_orders(session: SessionDep) -> OrderListResponse:
-    logger.info("Fetching all orders from the database")
+    logger.info("Fetching all orders from the db")
     orders = session.execute(select(Order)).scalars().all()
     return OrderListResponse(
         orders=[
@@ -52,7 +68,19 @@ def get_orders(session: SessionDep) -> OrderListResponse:
     )
 
 
-@app.post("/api/v1/order", status_code=status.HTTP_202_ACCEPTED)
+@app.post(
+    "/api/v1/order",
+    status_code=status.HTTP_202_ACCEPTED,
+    tags=["Orders"],
+    summary="Create New Order",
+    description="Submit a new investment order with specified term and amount",
+    response_description="Order received for porcessing",
+    responses={
+        202: {"description": "Order accepted"},
+        400: {"description": "Invalid order data"},
+        422: {"description": "Validation error"},
+    },
+)
 async def create_order(order: OrderCreate, session: SessionDep) -> Response:
     logger.info(
         "Order for term: %d and amount: %d received", order.term, order.amount
@@ -67,7 +95,13 @@ async def create_order(order: OrderCreate, session: SessionDep) -> Response:
     return Response(status_code=status.HTTP_202_ACCEPTED)
 
 
-@app.get("/api/v1/yields", response_model=dict[str, object])
+@app.get(
+    "/api/v1/yields",
+    response_model=dict[str, object],
+    tags=["Yields"],
+    summary="Get Yield Data",
+    description="Fetch historical yield data, filtered by year and term",
+)
 def get_yields(
     year: int = Query(None, description="Year for yield data"),
     term: str = Query(None, description="Term length for yield data"),
