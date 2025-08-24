@@ -29,7 +29,8 @@ You are working with a bank that needs to manage its liquidity. Build a simple f
   - The memory and pod will be wiped every 8 hours since this is a demo
 - Container built using a Github action
 ### TODO
-- Fix tests to use the in memory database correctly and not the production db
+- Fix tests to use the in memory database correctly and not create a new sqlite file to use every time
+  - Ran out of time a bit on the testing but wanted to get something to show here
 - Add user management
 - Improve yields caching logic
   - Precache x years on startup
@@ -74,4 +75,5 @@ Tests can be run in the root directory with
 source .venv/bin/activate
 pytest
 ```
-or with `make test`
+or with `make test`.  
+**Note:** the testing suite is currently incomplete with setting up a test db

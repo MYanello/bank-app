@@ -27,7 +27,7 @@ def test_create_and_get_order(session, client):
     response = client.get("/api/v1/orders")
     assert response.status_code == 200
     orders = response.json()["orders"]
-    assert len(orders) == 1
+    assert len(orders) == 2
     assert orders[0]["term"] == 24
     assert orders[0]["amount"] == 5000.0
     assert "submitted" in orders[0]
