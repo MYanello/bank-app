@@ -16,7 +16,7 @@ from models.database import (
     engine,
     get_session,
 )
-from models.orders import Order, OrderCreate, OrderResponse, OrdersResponse
+from models.orders import Order, OrderCreate, OrderListResponse, OrderResponse
 from services import fetch_yield_data
 
 log_level = os.getenv("LOG_LEVEL", "INFO").upper()
@@ -36,11 +36,11 @@ def health_check() -> str:
     return "OK"
 
 
-@app.get("/api/v1/orders", response_model=OrdersResponse)
-def get_orders(session: SessionDep) -> OrdersResponse:
+@app.get("/api/v1/orders", response_model=OrderListResponse)
+def get_orders(session: SessionDep) -> OrderListResponse:
     logger.info("Fetching all orders from the database")
     orders = session.execute(select(Order)).scalars().all()
-    return OrdersResponse(
+    return OrderListResponse(
         orders=[
             OrderResponse(
                 submitted=order.submitted_iso,

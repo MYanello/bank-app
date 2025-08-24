@@ -47,7 +47,7 @@ class OrderResponse(BaseModel):
     amount: int
 
 
-class OrdersResponse(BaseModel):
+class OrderListResponse(BaseModel):
     """Response model for list of orders."""
 
     orders: list[OrderResponse]
