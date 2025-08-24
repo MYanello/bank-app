@@ -42,7 +42,7 @@ class OrderCreate(BaseModel):
 class OrderResponse(BaseModel):
     """Response model for an order."""
 
-    submitted: datetime
+    submitted: str
     term: int
     amount: int
 

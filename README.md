@@ -36,7 +36,9 @@ You are working with a bank that needs to manage its liquidity. Build a simple f
   - Precache x years on startup
 - Store and display the rate for new/old orders
 - Allow more finegrained yield period control
-- Order submittal message shouldn't move everything down
+- Improve styling of orders page
+  - Order submittal message shouldn't move everything down
+  - Input fields should match order form and be side by side
 ## Running
 If you have a specific port you want to run on you can choose that with `export PORT=9000`, the default port is 8080.  
 After starting it can be accessed in the browser at http://localhost:8080 and api docs can be seen at http://localhost:8080/docs

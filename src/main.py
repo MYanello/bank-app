@@ -43,7 +43,9 @@ def get_orders(session: SessionDep) -> OrdersResponse:
     return OrdersResponse(
         orders=[
             OrderResponse(
-                submitted=order.submitted, term=order.term, amount=order.amount
+                submitted=order.submitted_iso,
+                term=order.term,
+                amount=order.amount,
             )
             for order in orders
         ]
