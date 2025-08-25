@@ -46,6 +46,7 @@ def health_check() -> str:
     return "OK"
 
 
+### API Routes
 @app.get(
     "/api/v1/orders",
     response_model=OrderListResponse,
@@ -110,6 +111,9 @@ def get_yields(
     return {"year": year, "term": term, "yields": fetch_yield_data(year, term)}
 
 
+### End API Routes
+
+### Frontend Routes
 app.mount(
     "/static",
     StaticFiles(directory=os.path.join(os.path.dirname(__file__), "static")),
@@ -130,6 +134,8 @@ def read_orders() -> FileResponse:
     file = os.path.join(parent_dir, "static", "orders.html")
     return FileResponse(file)
 
+
+### End Frontend Routes
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "8080"))
