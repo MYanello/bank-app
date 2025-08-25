@@ -50,8 +50,7 @@ After starting it can be accessed in the browser at http://localhost:8080 and ap
 If you have `uv` installed you can simply clone this repo and run using that 
 ```bash
 git clone https://github.com/MYanello/bank-app.git
-cd bank-app/src
-uv run main.py
+uv run src/main.py
 ```
 or using `make run-uv`
 ### Poetry
@@ -62,7 +61,7 @@ cd bank-app/
 python -m venv .venv
 source .venv/bin/activate
 poetry install
-python main.py
+python src/main.py
 ```
 or using `make run-poetry`
 ### Docker
