@@ -90,7 +90,6 @@ function displayOrders(orders) {
     })
     .join("");
   container.innerHTML = `
-    <h2>Previous Orders</h2>
     <table class="orders-table">
       <thead>${tableHeaders}</thead>
       <tbody>${tableRows}</tbody>
